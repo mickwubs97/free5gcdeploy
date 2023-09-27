@@ -110,6 +110,10 @@ install kubectl:
 ```
  sudo snap install kubectl --classic
 ```
+install helm:
+```
+sudo snap install helm --classic
+```
 [enable microk8s to work with VM's kubectl](https://microk8s.io/docs/working-with-kubectl):
 ```
 cd $HOME
@@ -158,7 +162,7 @@ blackhole 10.1.214.128/26 proto 80
 10.1.214.135 dev cali032701d8fbd scope link
 10.1.214.136 dev calicd7aa8cce63 scope link
 ```
-configure n6 interface for upf DN connection:
+configure n6 _network_ for upf DN connection:
 ```
 cd --\
 && vim towards5gs-helm/charts/free5gc/values.yaml 
@@ -176,11 +180,25 @@ n6network:
 ```
 masterIf should be the name of the second interface, subnetIP should be the subnet directly connected to the second interfece, gatewayIP shoud be the _gateway IP_ of the second interface (not the ip of the second interface).
 
-configure default interface (first interface) as the masterIf for other(n2, n3, n4 and n9):
+configure the name of the default interface (first interface) as the masterIf for other(n2, n3, n4 and n9):
 ```
 :%s/eth0/enp0s3/gc
 ```
 for now I leave the default IP configurations (10.100.50.0/24) of n2, n3, n4 and n9 unchanged because I deploy all 5g core and gNB functions on one kubernetes node/VM. This may change if you need to deploy them over a cubernetes cluster.
+
+also remember to configure ip for n6 interface, it needs to be an ip address in the n6 network/subnet.
+```
+vim
+```
+vim towards5gs-helm/charts/free5gc/charts/free5gc-upf/values.yaml
+```
+n3if:  # GTP-U
+    ipAddress: 10.100.50.233
+  n4if:  # PFCP
+    ipAddress: 10.100.50.241
+  n6if:  # DN
+    ipAddress: 10.0.3.12
+```
 
 ### 4.3 configure persistent volume:
 configure 8G of persistent volume with [this file](https://github.com/Orange-OpenSource/towards5gs-helm/blob/main/docs/demo/Setup-free5gc-and-test-with-UERANSIM.md#create-a-persistent-volume)
@@ -215,10 +233,107 @@ spec:
 ```
 in my case, [persistent volume name] is free5gc-pv0, replace [username] with your username and [node name] with the name of your kubernetes worker node.
 
+### deployment and test with [ueransim](https://github.com/Orange-OpenSource/towards5gs-helm/tree/main/charts/ueransim)
+
 now, deploy free5gc:
 ```
-
+cd --
 ```
+```
+mkdir kubedata \
+&& kubectl create ns free5gc \
+&& kubectl apply -f persistentvolume-definition.yml \
+&& cd towards5gs-helm/charts/ \
+&& helm -n free5gc install free5gc-v1 ./free5gc/ \
+&& watch kubectl get pods -n free5gc
+```
+if successful:
+```
+Every 2.0s: kubectl get pods -n free5gc                                                                                                                        free5gc: Wed Sep 27 11:28:47 2023
+NAME                                                    READY   STATUS    RESTARTS   AGE
+free5gc-v1-free5gc-upf-upf-555cfb4d7f-k9lxq             1/1     Running   0          64s
+mongodb-0                                               1/1     Running   0          64s
+free5gc-v1-free5gc-nrf-nrf-6699c64fd7-8xt9g             1/1     Running   0          64s
+free5gc-v1-free5gc-dbpython-dbpython-5d46c79f86-vjpjm   1/1     Running   0          64s
+free5gc-v1-free5gc-webui-webui-54f45bb69f-wvsjg         1/1     Running   0          64s
+free5gc-v1-free5gc-pcf-pcf-5fc9b5f98f-5pgxh             1/1     Running   0          64s
+free5gc-v1-free5gc-udm-udm-5d8d96c57b-qkcvh             1/1     Running   0          64s
+free5gc-v1-free5gc-amf-amf-6fc4bf584-pbrf6              1/1     Running   0          64s
+free5gc-v1-free5gc-udr-udr-6dfc5f6f74-9bwch             1/1     Running   0          64s
+free5gc-v1-free5gc-smf-smf-58b7874499-72hb8             1/1     Running   0          64s
+free5gc-v1-free5gc-nssf-nssf-58c6cddc69-bxq9r           1/1     Running   0          64s
+free5gc-v1-free5gc-ausf-ausf-75586797cf-wpg57           1/1     Running   0          64s
+```
+if not, check the configrations or post an issue. 
+
+to stop free5gc for this deployment, run:
+```
+kubectl delete -n free5gc pod,svc --all \
+&& kubectl delete ns free5gc \
+&& kubectl delete PersistentVolume free5gc-pv0 \
+&& cd -- \
+&& sudo rm -rf kubedata/
+```
+configure ueransim (n2, n3 interface):
+```
+vim towards5gs-helm/charts/ueransim/values.yaml
+```
+```
+n2network:
+    enabled: true
+    name: n2network
+    type: ipvlan
+    masterIf: enp0s3
+    subnetIP: 10.100.50.248
+    cidr: 29
+    gatewayIP: 10.100.50.254
+    excludeIP: 10.100.50.254
+  n3network:
+    enabled: true
+    name: n3network
+    type: ipvlan
+    masterIf: enp0s3
+    subnetIP: 10.100.50.232
+    cidr: 29
+    gatewayIP: 10.100.50.238
+    excludeIP: 10.100.50.238
+```
+now, deploy free5gc with ueransim:
+```
+mkdir kubedata \
+&& kubectl apply -f persistentvolume-definition.yml \
+&& kubectl create ns free5gc \
+&& cd towards5gs-helm/charts/ \
+&& helm -n free5gc install free5gc-v1 ./free5gc/ \
+&& helm -n free5gc install ueransim-v1 ./ueransim/ \
+&& watch kubectl get pods -n free5gc
+```
+if successful:
+```
+Every 2.0s: kubectl get pods -n free5gc                                                                                                                        free5gc: Wed Sep 27 11:40:41 2023
+NAME                                                    READY   STATUS    RESTARTS   AGE
+free5gc-v1-free5gc-upf-upf-555cfb4d7f-fk7xw             1/1     Running   0          33s
+mongodb-0                                               1/1     Running   0          33s
+free5gc-v1-free5gc-webui-webui-54f45bb69f-wg5rn         1/1     Running   0          33s
+free5gc-v1-free5gc-dbpython-dbpython-5d46c79f86-m5lnz   1/1     Running   0          33s
+free5gc-v1-free5gc-nrf-nrf-6699c64fd7-vs8b9             1/1     Running   0          33s
+free5gc-v1-free5gc-pcf-pcf-5fc9b5f98f-vkhbx             1/1     Running   0          33s
+free5gc-v1-free5gc-nssf-nssf-58c6cddc69-7l7j5           1/1     Running   0          33s
+free5gc-v1-free5gc-ausf-ausf-75586797cf-r8xb6           1/1     Running   0          33s
+free5gc-v1-free5gc-udr-udr-6dfc5f6f74-thqs7             1/1     Running   0          33s
+free5gc-v1-free5gc-udm-udm-5d8d96c57b-jz6cm             1/1     Running   0          33s
+free5gc-v1-free5gc-smf-smf-58b7874499-4pfc2             1/1     Running   0          33s
+ueransim-v1-ue-65985c8bfd-4x9dq                         1/1     Running   0          32s
+free5gc-v1-free5gc-amf-amf-6fc4bf584-nwt4r              1/1     Running   0          33s
+ueransim-v1-gnb-7ccf5f7bf9-xx2rw                        1/1     Running   0          32s
+```
+if not, check the configrations or post an issue. 
+
+test 
+
+## Additional
+
+
 
 
 
