@@ -130,6 +130,7 @@ sudo make install
 cd --
 ```
 see also [install-gtp5g](https://free5gc.org/blog/IntroduceKubernetesAndDeploymentfree5GConKubernetesWithHelm/main/#install-gtp5g)
+
 ### 4.2 download free5gc helm charts and configurations:
 download [free5gc helm charts](https://github.com/Orange-OpenSource/towards5gs-helm)
 ```
@@ -174,6 +175,9 @@ configure default interface (first interface) as the masterIf for other(n2, n3, 
 :%s/eth0/enp0s3/gc
 ```
 for now I leave the default IP configurations (10.100.50.0/24) of n2, n3, n4 and n9 unchanged because I deploy all 5g core and gNB functions on one kubernetes node/VM. This may change if you need to deploy them over a cubernetes cluster.
+
+### 4.3 configure persistent volume:
+configure 8G of persistent volume with [this file]()
 
 
 
