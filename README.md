@@ -35,7 +35,7 @@ sudo snap install microk8s --classic --channel=1.28
 configure Microk8s:
 ```
 sudo usermod -a -G microk8s $USER\
-sudo chown -f -R $USER ~/.kube\
+&& sudo chown -f -R $USER ~/.kube
 ```
 ```
 su - $USER
