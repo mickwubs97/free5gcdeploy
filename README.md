@@ -115,6 +115,12 @@ enable multus:
 microk8s enable community\
 && microk8s enable multus
 ```
+### download free5gc helm charts and configurations:
+download [free5gc helm charts](https://github.com/Orange-OpenSource/towards5gs-helm)
+```
+git clone https://github.com/Orange-OpenSource/towards5gs-helm.git
+```
+
 
 
 
