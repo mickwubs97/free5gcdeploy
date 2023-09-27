@@ -29,7 +29,7 @@ ssh into Ubuntu Server:
 ```
 ssh -p 8022 ubuntu@127.0.0.1
 ```
-check host networks:
+check VM networks:
 ```
 ip a
 ```
@@ -91,7 +91,7 @@ output:
     inet6 fe80::a00:27ff:fe3d:1c53/64 scope link
        valid_lft forever preferred_lft forever
 ```
-
+now we have two VM network interfaces belong to two _different_ subnets.
 
 ### 3.3 Ready Microk8s and Multus
 install [Microk8s](https://microk8s.io/docs/getting-started)
