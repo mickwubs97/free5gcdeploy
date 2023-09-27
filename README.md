@@ -44,6 +44,11 @@ install kubectl:
 ```
  sudo snap install kubectl --classic
 ```
+enable multus:
+```
+microk8s enable community\
+&& microk8s enable multus
+```
 
 
 
