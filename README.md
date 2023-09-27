@@ -40,6 +40,10 @@ sudo usermod -a -G microk8s $USER\
 ```
 su - $USER
 ```
+install kubectl:
+```
+ sudo snap install kubectl --classic
+```
 
 
 
