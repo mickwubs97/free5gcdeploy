@@ -17,10 +17,14 @@ output:
 5.4.0-163-generic
 ```
 ### 3.2 Network Configuration:
-port forwarding:\n
+port forwarding:
+
 Host Address: 
+
 Host Port: 8022
+
 Guest Address: [address for default network interface] ``` ip a ```
+
 Guest Port: 22
 
 
