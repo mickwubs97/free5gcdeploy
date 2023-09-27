@@ -19,14 +19,16 @@ output:
 ### 3.2 Network Configuration:
 port forwarding:\
 Host Address:\
-Host Port: [hostportnumber] you perfer\
+Host Port: 8022\
 Guest Address: [address for enp0s3/eth0/ens3]\
-Guest Port: [guestportnumber] you perfer)\
+Guest Port: 22\
 
 ssh into Ubuntu Server:
 ```
-ssh -p [hostportnumber] ubuntu@127.0.0.1
+ssh -p 8022 ubuntu@127.0.0.1
 ```
+
+
 
 
 
