@@ -8,7 +8,7 @@ A helm deployment procedure for [free5gc](https://github.com/Orange-OpenSource/t
 4 GPU, 10GB RAM, 25GB virtual hard disk, two NAT network adapters
 
 ## 3. VM Configurations:
-### 3.1 Version Check:
+### 3.1 Kernal Version Check:
 ```
 uname -r
 ```
@@ -115,7 +115,19 @@ enable multus:
 microk8s enable community\
 && microk8s enable multus
 ```
-### download free5gc helm charts and configurations:
+## 4. Free5GC Deplyoyment
+### 4.1 gtp5g installation
+install gtp5g v8.0.1 (need to be compatible with _kernel version_)
+```
+sudo apt install gcc
+sudo apt install make
+git clone -b v0.8.1 https://github.com/free5gc/gtp5g.git
+cd gtp5g
+make
+sudo make install
+```
+see also [install-gtp5g](https://free5gc.org/blog/IntroduceKubernetesAndDeploymentfree5GConKubernetesWithHelm/main/#install-gtp5g)
+### 3.5 download free5gc helm charts and configurations:
 download [free5gc helm charts](https://github.com/Orange-OpenSource/towards5gs-helm)
 ```
 git clone https://github.com/Orange-OpenSource/towards5gs-helm.git
