@@ -18,10 +18,10 @@ output:
 ```
 ### 3.2 Network Configuration:
 port forwarding:\
-Host Address: 
-Host Port: 8022
-Guest Address: [address for default network interface] ``` ip a ```
-Guest Port: 22
+Host Address: \
+Host Port: 8022\
+Guest Address: [address for default network interface] ``` ip a ```\
+Guest Port: 22\
 
 
 
