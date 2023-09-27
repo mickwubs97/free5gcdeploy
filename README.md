@@ -329,7 +329,9 @@ listen to port 5000 from host:
 ssh -L localhost:5000:localhost:5000 -p 8022 ubuntu@127.0.0.1
 ```
 access webui form host's broswer: \
-[http//:](http://localhost:5000/)
+http://localhost:5000
+
+login and add a new subscriber.
 
 configure ueransim (n2, n3 interface):
 ```
