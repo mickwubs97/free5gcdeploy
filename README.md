@@ -319,15 +319,18 @@ PING 8.8.8.8 (8.8.8.8): 56 data bytes
 64 bytes from 8.8.8.8: seq=1 ttl=112 time=17.193 ms
 ...
 ```
+to test uesimtun0 form ue, add ue profile to amf with webui service.\
+[forward webui service to host machine](https://free5gc.org/blog/IntroduceKubernetesAndDeploymentfree5GConKubernetesWithHelm/main/#start-webconsole)
+```
+kubectl port-forward --namespace free5gc svc/webui-service 5000:5000
+```
+listen to port 5000 from host:
+```
+ssh -L localhost:5000:localhost:5000 -p 8022 ubuntu@127.0.0.1
+```
+access webui form host's broswer: \
+[http//:](http://localhost:5000/)
 
-to stop free5gc for this deployment, run:
-```
-kubectl delete -n free5gc pod,svc --all \
-&& kubectl delete ns free5gc \
-&& kubectl delete PersistentVolume free5gc-pv0 \
-&& cd -- \
-&& sudo rm -rf kubedata/
-```
 configure ueransim (n2, n3 interface):
 ```
 vim towards5gs-helm/charts/ueransim/values.yaml
@@ -352,15 +355,11 @@ n2network:
     gatewayIP: 10.100.50.238
     excludeIP: 10.100.50.238
 ```
-now, deploy free5gc with ueransim:
+deploy ueransim:
 ```
-mkdir kubedata \
-&& kubectl apply -f persistentvolume-definition.yml \
-&& kubectl create ns free5gc \
+cd --\
 && cd towards5gs-helm/charts/ \
-&& helm -n free5gc install free5gc-v1 ./free5gc/ \
-&& helm -n free5gc install ueransim-v1 ./ueransim/ \
-&& watch kubectl get pods -n free5gc
+&& helm -n free5gc upgrade ueransim-v1 ./ueransim/
 ```
 if successful:
 ```
@@ -383,12 +382,17 @@ ueransim-v1-gnb-7ccf5f7bf9-xx2rw                        1/1     Running   0     
 ```
 if not, check the configrations or post an issue. 
 
-
-
-test 
+test uesimtun0:
 
 ## Additional
-
+to stop free5gc for this deployment, run:
+```
+kubectl delete -n free5gc pod,svc --all \
+&& kubectl delete ns free5gc \
+&& kubectl delete PersistentVolume free5gc-pv0 \
+&& cd -- \
+&& sudo rm -rf kubedata/
+```
 
 
 
