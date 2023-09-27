@@ -110,6 +110,12 @@ install kubectl:
 ```
  sudo snap install kubectl --classic
 ```
+[enable microk8s to work with VM's kubectl](https://microk8s.io/docs/working-with-kubectl):
+```
+cd $HOME
+cd .kube
+microk8s config > config
+```
 enable multus:
 ```
 microk8s enable community\
