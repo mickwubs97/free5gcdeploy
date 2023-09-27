@@ -130,10 +130,31 @@ sudo make install
 cd --
 ```
 see also [install-gtp5g](https://free5gc.org/blog/IntroduceKubernetesAndDeploymentfree5GConKubernetesWithHelm/main/#install-gtp5g)
-### 3.5 download free5gc helm charts and configurations:
+### 4.2 download free5gc helm charts and configurations:
 download [free5gc helm charts](https://github.com/Orange-OpenSource/towards5gs-helm)
 ```
 git clone https://github.com/Orange-OpenSource/towards5gs-helm.git
+```
+check the _gateway_ of VM network interfeces:
+```
+ip r
+```
+output:
+```
+default via 10.0.3.2 dev enp0s8 proto dhcp src 10.0.3.15 metric 100
+default via 10.0.2.2 dev enp0s3 proto dhcp src 10.0.2.15 metric 100
+10.0.2.0/24 dev enp0s3 proto kernel scope link src 10.0.2.15
+10.0.2.2 dev enp0s3 proto dhcp scope link src 10.0.2.15 metric 100
+10.0.3.0/24 dev enp0s8 proto kernel scope link src 10.0.3.15
+10.0.3.2 dev enp0s8 proto dhcp scope link src 10.0.3.15 metric 100
+blackhole 10.1.214.128/26 proto 80
+10.1.214.135 dev cali032701d8fbd scope link
+10.1.214.136 dev calicd7aa8cce63 scope link
+```
+configure n6 interface for upf DN connection:
+```
+cd --\
+&& vim towards5gs-helm/charts/free5gc/values.yaml 
 ```
 
 
