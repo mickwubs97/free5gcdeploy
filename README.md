@@ -9,5 +9,12 @@ A helm deployment procedure for [free5gc](https://github.com/Orange-OpenSource/t
 
 ## 3. VM Configurations:
 ### 3.1 Version Check:
+```
+uname -r
+```
+output:
+```
+5.4.0-163-generic
+```
 
 
