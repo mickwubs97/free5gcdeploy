@@ -126,6 +126,9 @@ cd gtp5g
 make
 sudo make install
 ```
+```
+cd --
+```
 see also [install-gtp5g](https://free5gc.org/blog/IntroduceKubernetesAndDeploymentfree5GConKubernetesWithHelm/main/#install-gtp5g)
 ### 3.5 download free5gc helm charts and configurations:
 download [free5gc helm charts](https://github.com/Orange-OpenSource/towards5gs-helm)
