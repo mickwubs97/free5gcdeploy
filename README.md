@@ -266,6 +266,60 @@ free5gc-v1-free5gc-ausf-ausf-75586797cf-wpg57           1/1     Running   0     
 ```
 if not, check the configrations or post an issue. 
 
+#### test upf:
+check upf interfces:
+```
+kubectl exec -it -n free5gc [upf pod id] -- ip a
+```
+it should give somwthing like this (with different ip addresses):
+```
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+3: eth0@if166: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc noqueue state UP group default
+    link/ether 2e:83:7a:d0:2c:c5 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 10.1.214.169/32 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::2c83:7aff:fed0:2cc5/64 scope link
+       valid_lft forever preferred_lft forever
+4: n3@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN group default
+    link/ether 08:00:27:df:4e:37 brd ff:ff:ff:ff:ff:ff
+    inet 10.100.50.233/29 brd 10.100.50.239 scope global n3
+       valid_lft forever preferred_lft forever
+    inet6 fe80::800:2700:3df:4e37/64 scope link
+       valid_lft forever preferred_lft forever
+5: n6@eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN group default
+    link/ether 08:00:27:3d:1c:53 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.3.12/24 brd 10.0.3.255 scope global n6
+       valid_lft forever preferred_lft forever
+    inet6 fe80::800:2700:13d:1c53/64 scope link
+       valid_lft forever preferred_lft forever
+6: n4@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN group default
+    link/ether 08:00:27:df:4e:37 brd ff:ff:ff:ff:ff:ff
+    inet 10.100.50.241/29 brd 10.100.50.247 scope global n4
+       valid_lft forever preferred_lft forever
+    inet6 fe80::800:2700:4df:4e37/64 scope link
+       valid_lft forever preferred_lft forever
+7: upfgtp: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1464 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/none
+    inet6 fe80::8ec6:e4da:9c15:9866/64 scope link stable-privacy
+       valid_lft forever preferred_lft forever
+```
+check n6 connection to the DN:
+```
+kubectl exec -it -n free5gc free5gc-v1-free5gc-upf-upf-555cfb4d7f-qw6nf -- ping -I n6 8.8.8.8
+```
+it should work:
+```
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=112 time=10.474 ms
+64 bytes from 8.8.8.8: seq=1 ttl=112 time=17.193 ms
+...
+```
+
 to stop free5gc for this deployment, run:
 ```
 kubectl delete -n free5gc pod,svc --all \
