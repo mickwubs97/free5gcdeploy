@@ -156,6 +156,26 @@ configure n6 interface for upf DN connection:
 cd --\
 && vim towards5gs-helm/charts/free5gc/values.yaml 
 ```
+```
+n6network:
+ enabled: true
+ name: n6network
+ type: ipvlan
+ masterIf: enp0s8
+ subnetIP: 10.0.3.0
+ cidr: 24
+ gatewayIP: 10.0.3.2
+ excludeIP: 10.0.3.254
+```
+masterIf should be the name of the second interface, subnetIP should be the subnet directly connected to the second interfece, gatewayIP shoud be the _gateway IP_ of the second interface (not the ip of the second interface).
+
+configure default interface (first interface) as the masterIf for other(n2, n3, n4 and n9):
+```
+:%s/eth0/enp0s3/gc
+```
+for now I leave the default IP configurations (10.100.50.0/24) of n2, n3, n4 and n9 unchanged because I deploy all 5g core and gNB functions on one kubernetes node/VM. This may change if you need to deploy them over a cubernetes cluster.
+
+
 
 
 
