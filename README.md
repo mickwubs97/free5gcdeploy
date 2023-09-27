@@ -329,6 +329,8 @@ ueransim-v1-gnb-7ccf5f7bf9-xx2rw                        1/1     Running   0     
 ```
 if not, check the configrations or post an issue. 
 
+
+
 test 
 
 ## Additional
