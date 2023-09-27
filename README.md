@@ -21,7 +21,7 @@ port forwarding:\
 Host Address:\
 Host Port: 8022\
 Guest Address: [address for enp0s3/eth0/ens3]\
-Guest Port: 22\
+Guest Port: 22
 
 configure _another_ NAT network interface
 
