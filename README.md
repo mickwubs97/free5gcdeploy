@@ -178,6 +178,38 @@ for now I leave the default IP configurations (10.100.50.0/24) of n2, n3, n4 and
 
 ### 4.3 configure persistent volume:
 configure 8G of persistent volume with [this file](https://github.com/Orange-OpenSource/towards5gs-helm/blob/main/docs/demo/Setup-free5gc-and-test-with-UERANSIM.md#create-a-persistent-volume)
+```
+cd --
+vim persistent-volume.yml
+```
+persistent-volume.yml:
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: [persistent volume name]
+  labels:
+    project: free5gc
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: /home/[username]/kubedata
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - [node name]
+```
+in my case, [persistent volume name] is free5gc-pv0, replace [username] with your username and [node name] with the name of your kubernetes worker node.
+
+
 
 
 
