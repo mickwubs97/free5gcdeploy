@@ -98,13 +98,29 @@ install [Microk8s](https://microk8s.io/docs/getting-started)
 ```
 sudo snap install microk8s --classic --channel=1.28
 ```
-configure Microk8s:
+enable kube-ovn:
+```
+sudo microk8s enable kube-ovn --force
+```
+here I use kube-ovn CNI to avoid the [ipv4_forwaeding problem](https://github.com/canonical/microk8s/issues/1989) in the calico CNI
+enable multus:
+```
+microk8s enable community\
+&& microk8s enable multus
+```
+join Microk8s cluster:
 ```
 sudo usermod -a -G microk8s $USER\
 && sudo chown -f -R $USER ~/.kube
 ```
 ```
 su - $USER
+```
+make sure to join the cluster _after_ enable kube-ove otherwise you may lose control of the cluster (kube-ovn delete calico CNIs before enabled)
+when Microk8s is ready, type ``` microk8s status``` to check, it should have these addons enabled:
+```
+addons:                                                                                                                                                             
+  enabled:                                                                                                                                                               multus               # (community) Multus CNI enables attaching multiple network interfaces to pods                                                                  community            # (core) The community addons repository                                                                                                        dns                  # (core) CoreDNS                                                                                                                                ha-cluster           # (core) Configure high availability on the current node                                                                                        helm                 # (core) Helm - the package manager for Kubernetes                                                                                              helm3                # (core) Helm 3 - the package manager for Kubernetes                                                                                            kube-ovn             # (core) An advanced network fabric for Kubernetes
 ```
 install kubectl:
 ```
@@ -119,16 +135,6 @@ sudo snap install helm --classic
 cd $HOME
 cd .kube
 microk8s config > config
-```
-enable multus:
-```
-microk8s enable community\
-&& microk8s enable multus
-```
-enable other necessary addons:
-```
-sudo microk8s enable dns\
-&& sudo microk8s enable kube-ovn --force
 ```
 ## 4. Free5GC Deplyoyment
 ### 4.1 gtp5g installation
