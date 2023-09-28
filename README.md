@@ -310,7 +310,7 @@ it should give somwthing like this (with different ip addresses):
 ```
 check n6 connection to the DN:
 ```
-kubectl exec -it -n free5gc free5gc-v1-free5gc-upf-upf-555cfb4d7f-qw6nf -- ping -I n6 8.8.8.8
+kubectl exec -it -n free5gc [upf pod id] -- ping -I n6 8.8.8.8
 ```
 it should work:
 ```
