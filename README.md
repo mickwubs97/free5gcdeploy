@@ -125,6 +125,11 @@ enable multus:
 microk8s enable community\
 && microk8s enable multus
 ```
+enable other necessary addons:
+```
+microk8s enable cilium\
+&& microk8s enable dns
+```
 ## 4. Free5GC Deplyoyment
 ### 4.1 gtp5g installation
 install gtp5g v8.0.1 (need to be compatible with _kernel version_)
