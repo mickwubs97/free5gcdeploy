@@ -98,20 +98,6 @@ install [Microk8s](https://microk8s.io/docs/getting-started)
 ```
 sudo snap install microk8s --classic --channel=1.28
 ```
-enable kube-ovn:
-```
-sudo microk8s enable kube-ovn --force
-```
-here I use kube-ovn CNI to avoid the [ipv4_forwaeding problem](https://github.com/canonical/microk8s/issues/1989) in the calico CNI
-enable multus:
-```
-microk8s enable community\
-&& microk8s enable multus
-```
-enable dns:
-```
-microk8s enable dns
-```
 join Microk8s cluster:
 ```
 sudo usermod -a -G microk8s $USER\
@@ -120,7 +106,30 @@ sudo usermod -a -G microk8s $USER\
 ```
 su - $USER
 ```
-make sure to join the cluster _after_ enable kube-ove otherwise you may lose control of the cluster (kube-ovn delete calico CNIs before enabled)
+enable kube-ovn:
+```
+sudo microk8s enable kube-ovn --force
+```
+here I use kube-ovn CNI to avoid the [ipv4_forwaeding problem](https://github.com/canonical/microk8s/issues/1989) in the calico CNI
+
+join Microk8s cluster (make sure to join the cluster _after_ enable kube-ove otherwise you may lose control of the cluster):
+```
+sudo usermod -a -G microk8s $USER\
+&& sudo chown -f -R $USER ~/.kube
+```
+```
+su - $USER
+```
+enable multus:
+```
+microk8s enable community\
+&& microk8s enable multus
+```
+(re)enable dns:
+```
+microk8s disable dns
+microk8s enable dns
+```
 when Microk8s is ready, type ``` microk8s status``` to check, it should have these addons enabled:
 ```
 addons:                                                                                                                                                             
