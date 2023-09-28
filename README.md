@@ -108,6 +108,10 @@ enable multus:
 microk8s enable community\
 && microk8s enable multus
 ```
+enable dns:
+```
+microk8s enable dns
+```
 join Microk8s cluster:
 ```
 sudo usermod -a -G microk8s $USER\
