@@ -127,8 +127,8 @@ microk8s enable community\
 ```
 enable other necessary addons:
 ```
-microk8s enable cilium\
-&& microk8s enable dns
+sudo microk8s enable dns\
+&& sudo microk8s enable kube-ovn --force
 ```
 ## 4. Free5GC Deplyoyment
 ### 4.1 gtp5g installation
