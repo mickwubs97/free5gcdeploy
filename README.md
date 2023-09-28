@@ -361,7 +361,7 @@ deploy ueransim:
 ```
 cd --\
 && cd towards5gs-helm/charts/ \
-&& helm -n free5gc upgrade ueransim-v1 ./ueransim/
+&& helm -n free5gc install ueransim-v1 ./ueransim/
 ```
 if successful:
 ```
