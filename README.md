@@ -98,14 +98,6 @@ install [Microk8s](https://microk8s.io/docs/getting-started)
 ```
 sudo snap install microk8s --classic --channel=1.28
 ```
-join Microk8s cluster:
-```
-sudo usermod -a -G microk8s $USER\
-&& sudo chown -f -R $USER ~/.kube
-```
-```
-su - $USER
-```
 enable kube-ovn:
 ```
 sudo microk8s enable kube-ovn --force
