@@ -131,10 +131,22 @@ microk8s disable dns
 microk8s enable dns
 ```
 when Microk8s is ready, type ``` microk8s status``` to check, it should have these addons enabled:
-addons: \                                                                                                                                                            
-  enabled:\                                                                                                                                                              multus               # (community) Multus CNI enables attaching multiple network interfaces to pods\                                                           
-    community            # (core) The community addons repository\                                                                                                       dns                  # (core) CoreDNS\                                                                                                                               ha-cluster           # (core) Configure high availability on the current node\                                                                                       helm                 # (core) Helm - the package manager for Kubernetes\                                                                                             helm3                # (core) Helm 3 - the package manager for Kubernetes\                                                                                           kube-ovn             # (core) An advanced network fabric for Kubernetes\
-install kubectl:
+```
+microk8s is running
+high-availability: no
+datastore master nodes: 127.0.0.1:19001
+datastore standby nodes: none
+addons:
+  enabled:
+    multus               # (community) Multus CNI enables attaching multiple network interfaces to pods
+    community            # (core) The community addons repository
+    dns                  # (core) CoreDNS
+    ha-cluster           # (core) Configure high availability on the current node
+    helm                 # (core) Helm - the package manager for Kubernetes
+    helm3                # (core) Helm 3 - the package manager for Kubernetes
+    kube-ovn             # (core) An advanced network fabric for Kubernetes
+  disabled:
+    ...
 ```
  sudo snap install kubectl --classic
 ```
