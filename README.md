@@ -131,10 +131,9 @@ microk8s disable dns
 microk8s enable dns
 ```
 when Microk8s is ready, type ``` microk8s status``` to check, it should have these addons enabled:
-```
-addons:                                                                                                                                                             
-  enabled:                                                                                                                                                               multus               # (community) Multus CNI enables attaching multiple network interfaces to pods                                                                  community            # (core) The community addons repository                                                                                                        dns                  # (core) CoreDNS                                                                                                                                ha-cluster           # (core) Configure high availability on the current node                                                                                        helm                 # (core) Helm - the package manager for Kubernetes                                                                                              helm3                # (core) Helm 3 - the package manager for Kubernetes                                                                                            kube-ovn             # (core) An advanced network fabric for Kubernetes
-```
+addons: \                                                                                                                                                            
+  enabled:\                                                                                                                                                              multus               # (community) Multus CNI enables attaching multiple network interfaces to pods\                                                           
+    community            # (core) The community addons repository\                                                                                                       dns                  # (core) CoreDNS\                                                                                                                               ha-cluster           # (core) Configure high availability on the current node\                                                                                       helm                 # (core) Helm - the package manager for Kubernetes\                                                                                             helm3                # (core) Helm 3 - the package manager for Kubernetes\                                                                                           kube-ovn             # (core) An advanced network fabric for Kubernetes\
 install kubectl:
 ```
  sudo snap install kubectl --classic
@@ -419,9 +418,22 @@ it should give:
 otherwise, check document [here](https://github.com/Orange-OpenSource/towards5gs-helm/blob/main/docs/demo/Setup-free5gc-and-test-with-UERANSIM.md#tun-interface-correctly-created-on-the-ue-but-internet) and solution [here](https://github.com/canonical/microk8s/issues/1989) or use microk8s kube-ovn as CNI.
 check uesimtun0:
 ```
-
+kubectl exec -it -n [ue pod id] -- ip a
 ```
+output should have uesimtun0 in the interfeaces
 test uesimtun0:
+```
+kubectl exec -it -n free5gc ueransim-v1-ue-65985c8bfd-8w5x5 -- ping -I uesimtun0 8.8.8.8
+```
+and it should work:
+```
+PING 8.8.8.8 (8.8.8.8) from 10.1.0.1 uesimtun0: 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=111 time=12.5 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=111 time=10.7 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=111 time=12.2 ms
+64 bytes from 8.8.8.8: icmp_seq=4 ttl=111 time=13.3 ms
+...
+```
 
 ## Additional
 to stop free5gc for this deployment, run:
