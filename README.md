@@ -406,7 +406,12 @@ ueransim-v1-ue-65985c8bfd-4x9dq                         1/1     Running   0     
 free5gc-v1-free5gc-amf-amf-6fc4bf584-nwt4r              1/1     Running   0          33s
 ueransim-v1-gnb-7ccf5f7bf9-xx2rw                        1/1     Running   0          32s
 ```
-if not, check the configrations or post an issue. 
+if not, check the configrations or post an issue.
+
+[check ipv4_forwarding](https://github.com/Orange-OpenSource/towards5gs-helm/blob/main/docs/demo/Setup-free5gc-and-test-with-UERANSIM.md#tun-interface-correctly-created-on-the-ue-but-internet):
+```
+
+```
 
 test uesimtun0:
 
