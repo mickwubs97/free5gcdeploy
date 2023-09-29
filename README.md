@@ -410,9 +410,17 @@ if not, check the configrations or post an issue.
 
 [check ipv4_forwarding](https://github.com/Orange-OpenSource/towards5gs-helm/blob/main/docs/demo/Setup-free5gc-and-test-with-UERANSIM.md#tun-interface-correctly-created-on-the-ue-but-internet):
 ```
-
+kubectl exec -it -n [upf pod id] -- cat /proc/sys/net/ipv4/ip_forward
+```
+it should give:
+```
+1
+```
+otherwise, check document [here](https://github.com/Orange-OpenSource/towards5gs-helm/blob/main/docs/demo/Setup-free5gc-and-test-with-UERANSIM.md#tun-interface-correctly-created-on-the-ue-but-internet) and solution [here](https://github.com/canonical/microk8s/issues/1989) or use microk8s kube-ovn as CNI.
+check uesimtun0:
 ```
 
+```
 test uesimtun0:
 
 ## Additional
