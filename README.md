@@ -119,8 +119,8 @@ microk8s enable community\
 ```
 (re)enable dns:
 ```
-microk8s disable dns
-microk8s enable dns
+microk8s disable dns\
+&& microk8s enable dns
 ```
 when Microk8s is ready, type ``` microk8s status``` to check, it should have these addons enabled:
 ```
@@ -142,7 +142,7 @@ addons:
 ```
 install kubectl:
 ```
- sudo snap install kubectl --classic
+sudo snap install kubectl --classic
 ```
 install helm:
 ```
