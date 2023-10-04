@@ -445,6 +445,7 @@ PING 8.8.8.8 (8.8.8.8) from 10.1.0.1 uesimtun0: 56(84) bytes of data.
 to stop free5gc for this deployment, run:
 ```
 kubectl delete -n free5gc pod,svc --all \
+&& kubectl delete -n free5gc deployment --all \
 && kubectl delete ns free5gc \
 && kubectl delete PersistentVolume free5gc-pv0 \
 && cd -- \
