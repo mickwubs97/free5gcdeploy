@@ -102,7 +102,7 @@ enable kube-ovn:
 ```
 sudo microk8s enable kube-ovn --force
 ```
-here I use kube-ovn CNI to avoid the [ipv4_forwaeding problem](https://github.com/canonical/microk8s/issues/1989) in the calico CNI
+here I use kube-ovn CNI to avoid the [ipv4_forwarding problem](https://github.com/canonical/microk8s/issues/1989) in the calico CNI
 
 join Microk8s cluster (make sure to join the cluster _after_ enable kube-ove otherwise you may lose control of the cluster):
 ```
