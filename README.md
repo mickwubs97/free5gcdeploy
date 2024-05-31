@@ -216,10 +216,10 @@ configure the name of the default interface (first interface) as the masterIf fo
 for now I leave the default IP configurations (10.100.50.0/24) of n2, n3, n4 and n9 unchanged because I deploy all 5g core and gNB functions on one kubernetes node/VM. This may change if you need to deploy them over a kubernetes cluster.
 
 also remember to configure ip for n6 interface, it needs to be an ip address in the n6 network/subnet.
-```
-vim
+
 ```
 vim towards5gs-helm/charts/free5gc/charts/free5gc-upf/values.yaml
+```
 ```
 n3if:  # GTP-U
     ipAddress: 10.100.50.233
