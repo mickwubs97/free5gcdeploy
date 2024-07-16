@@ -300,7 +300,7 @@ check upf interfces:
 ```
 kubectl exec -it -n free5gc [upf pod id] -- ip a
 ```
-it should give somwthing like this (with different ip addresses):
+it should give something like this (with different ip addresses):
 ```
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
