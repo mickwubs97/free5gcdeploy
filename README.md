@@ -459,6 +459,15 @@ helm -n free5gc uninstall free5gc-v1 ./free5gc/ \
 && sudo rm -rf kubedata/
 ```
 
+## create f5gcn6
+```
+sudo ip link add name f5gcn6 link ens5 type ipvlan mode l2
+sudo ip link set f5gcn6 up
+sudo ip addr add 10.128.2.15/16 dev f5gcn6
+sudo ip route add default via 10.128.0.1 dev f5gcn6
+ping 8.8.8.8 -I f5gcn6
+```
+
 
 
 
