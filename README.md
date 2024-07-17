@@ -453,7 +453,7 @@ kubectl delete -n free5gc pod,svc --all \
 ```
 
 ```
-helm -n free5gc uninstall free5gc-v1 ./free5gc/ \
+helm -n free5gc uninstall free5gc-v1\
 && kubectl delete ns free5gc \
 && cd -- \
 && sudo rm -rf kubedata/
